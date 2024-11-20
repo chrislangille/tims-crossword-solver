@@ -16,32 +16,55 @@ def whites_only(bg):
 
 def find_letter_bounds(img):
     origin = None
-    origin_row = None
-    origin_col = None
+    left_origin_row = None
+    left_origin_col = None
+    right_origin_row = None
+    right_origin_col = None
+    width = 0
+    height = 0
 
     for col in range(0, mask_dimensions[1]):
         for row in range(0, mask_dimensions[0]):
             if img[row][col][0] != 0:
-                origin_col = col
+                left_origin_col = col
                 break
-        if origin_col != None:
+        if left_origin_col != None:
             break
 
-    if(origin_col == None):
+    if(left_origin_col == None):
         return (None, None), 0, 0
 
     for row in range(0, mask_dimensions[0]):
-        for col in range(origin_col, origin_col + letter_dimensions[1]):
+        for col in range(left_origin_col, left_origin_col + letter_dimensions[1]):
             if img[row][col][0] != 0:
-                origin_row = row
+                left_origin_row = row
                 break
-        if origin_row != None:
+        if left_origin_row != None:
             break
 
-    origin = (origin_row, origin_col)
+
+    for col in range(mask_dimensions[1] - 1, -1, -1):
+        for row in range(0, mask_dimensions[0]):
+            if img[row][col][0] != 0:
+                right_origin_col = col
+                break
+        if right_origin_col != None:
+            break
+
+    for row in range(0, mask_dimensions[0]):
+        for col in range(right_origin_col, right_origin_col - letter_dimensions[1], -1):
+            if img[row][col][0] != 0:
+                right_origin_row = row
+                break
+        if right_origin_row != None:
+            break
+
+    origin = (left_origin_row, left_origin_col)
+    width = right_origin_col - left_origin_col
+    height = right_origin_row - left_origin_row
 
 
-    return origin, *letter_dimensions
+    return origin, width, height
     
 
 # Load images
@@ -73,5 +96,4 @@ while origin[0] != None:
 # Convert the result back to a PIL Image and save
 result = Image.fromarray(numpy.uint8(filtered_letters))
 result.save('assets/result.png')
-
 
