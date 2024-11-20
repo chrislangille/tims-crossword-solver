@@ -1,7 +1,7 @@
-from PIL import Image, ImageOps, ImageEnhance, ImageDraw, ImageFilter, ImageMorph
+from PIL import Image, ImageOps, ImageEnhance, ImageDraw, ImageFilter
 
 # Load the image
-path = "assets/ss3.png"
+path = "assets/ss.png"
 image = Image.open(path)
 
 # Convert to grayscale

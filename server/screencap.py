@@ -1,19 +1,30 @@
 import subprocess
 import os
 import sys
+from PIL import Image
 
+width = 627
+height = 1305 
 
 def main():
-    outfile = os.path.expanduser('captured.png')
-    outcmd = "{} {}".format('screencapture', outfile)
+    outfile = os.path.expanduser('assets/ss.png')
+    outcmd = ['screencapture', outfile]
 
     try:
-        # ordinarily we would not use shell=True due to security concerns
-        subprocess.check_output([outcmd], shell=True)
+        # Run the command without shell=True for better security
+        subprocess.check_output(outcmd)
+        print("Screenshot captured successfully!")
     except subprocess.CalledProcessError as e:
-        print('Python error: [%d]\n{}\n'.format(e.returncode, e.output))
+        print(f'Python error: [{e.returncode}]\n{e.output.decode()}')
 
+
+    image = Image.open(outfile)
+    x = image.width - width
+    y = 150 
+    image = image.crop((x, y, x + width, y + height))
+    image.save(outfile)
 
 if __name__ == '__main__':
     sys.exit(main())
+
 
