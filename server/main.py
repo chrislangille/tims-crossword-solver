@@ -19,8 +19,25 @@ for letter in letters:
     if not letter.isalpha():
         letters.remove(letter)
 
-cmd = f"cd c && make && ./main {','.join(letters)} 3,4,5,6 words_alpha.txt"
+process.run(["python", "word_grid.py"])
+
+word_grid_path = "assets/word_grid.txt"
+
+# Read the word grid from the file
+with open(word_grid_path, 'r') as f:
+    word_grid = f.read().split('\n')
+    f.close()
+
+# filter out non letter
+for word in word_grid:
+    if not word.isnumeric():
+        word_grid.remove(word)
+
+print("Word Grid:", word_grid)
+
+cmd = f"cd c && make && ./main {','.join(letters)} {','.join(word_grid)} words_alpha.txt"
 
 # Run the combined command in the shell
-process = process.run(cmd, shell=True, check=True)
+process.run(cmd, shell=True, check=True)
+
 
