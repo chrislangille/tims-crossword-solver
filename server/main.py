@@ -1,6 +1,16 @@
 import subprocess as process
 
-process.run(["python", "screencap.py"])
+# get args from command line
+import sys
+args = sys.argv
+debug = len(args) > 1 and args[1] == "-d"
+
+if debug:
+    print("Debugging mode enabled")
+
+if not debug:
+    process.run(["python", "screencap.py"])
+
 process.run(["python", "filter_img.py"])
 process.run(["python", "letter_ocr.py"])
 

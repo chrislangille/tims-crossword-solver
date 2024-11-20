@@ -15,7 +15,6 @@ details = pytesseract.image_to_data(filtered_image, output_type=pytesseract.Outp
 
 # Create a dictionary to store letter coordinates
 letter_coords = {}
-print(details)
 
 # Iterate through the detected words and their letters
 for i, text in enumerate(details['text']):
